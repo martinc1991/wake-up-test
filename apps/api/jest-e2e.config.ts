@@ -1,4 +1,4 @@
-import type { Config } from 'jest';
+import type { Config } from 'jest'
 
 const config: Config = {
   moduleFileExtensions: ['js', 'json', 'ts'],
@@ -11,6 +11,6 @@ const config: Config = {
   moduleNameMapper: {
     'src/(.*)': '<rootDir>/src/$1',
   },
-};
+}
 
-export default config;
+export default config

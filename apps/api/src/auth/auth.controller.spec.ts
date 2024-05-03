@@ -1,18 +1,18 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { PrismaClient } from '@prisma/client';
-import { DeepMockProxy, mockDeep } from 'jest-mock-extended';
-import { PrismaService } from 'src/prisma/prisma.service';
-import { AuthController } from './auth.controller';
-import { AuthService } from './auth.service';
+import { Test, TestingModule } from '@nestjs/testing'
+import { PrismaClient } from '@prisma/client'
+import { DeepMockProxy, mockDeep } from 'jest-mock-extended'
+import { PrismaService } from 'src/prisma/prisma.service'
+import { AuthController } from './auth.controller'
+import { AuthService } from './auth.service'
 
 describe('AuthController', () => {
-  let controller: AuthController;
-  let prismaMock: DeepMockProxy<PrismaClient>;
-  let serviceMock: DeepMockProxy<AuthService>;
+  let controller: AuthController
+  let prismaMock: DeepMockProxy<PrismaClient>
+  let serviceMock: DeepMockProxy<AuthService>
 
   beforeEach(async () => {
-    prismaMock = mockDeep<PrismaClient>();
-    serviceMock = mockDeep<AuthService>();
+    prismaMock = mockDeep<PrismaClient>()
+    serviceMock = mockDeep<AuthService>()
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AuthController],
@@ -20,12 +20,12 @@ describe('AuthController', () => {
         { provide: AuthService, useValue: serviceMock },
         { provide: PrismaService, useValue: prismaMock },
       ],
-    }).compile();
+    }).compile()
 
-    controller = module.get<AuthController>(AuthController);
-  });
+    controller = module.get<AuthController>(AuthController)
+  })
 
   it('should be defined', () => {
-    expect(controller).toBeDefined();
-  });
-});
+    expect(controller).toBeDefined()
+  })
+})

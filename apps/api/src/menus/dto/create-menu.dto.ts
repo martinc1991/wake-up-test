@@ -1,13 +1,13 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator'
 
 export class CreateMenuDto {
   @IsString()
   @IsNotEmpty()
-  title: string;
+  title: string
 
   @IsString()
-  description?: string;
+  description?: string
 
   @IsString()
-  restaurantId: string;
+  restaurantId: string
 }

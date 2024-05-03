@@ -1,2 +1,2 @@
-export * from './jwt-user-info.type';
-export * from './tokens.type';
+export * from './jwt-user-info.type'
+export * from './tokens.type'

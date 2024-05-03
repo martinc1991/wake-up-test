@@ -1,4 +1,4 @@
-import { Restaurant } from '@prisma/client';
+import { Restaurant } from '@prisma/client'
 
 export const restaurantStub: Restaurant = {
   id: 'some-restaurant-id',
@@ -6,4 +6,4 @@ export const restaurantStub: Restaurant = {
   ownerId: 'some-owner-id',
   createdAt: new Date(),
   updatedAt: new Date(),
-};
+}

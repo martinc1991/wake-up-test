@@ -1,19 +1,19 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { PrismaClient } from '@prisma/client';
-import { DeepMockProxy, mockDeep } from 'jest-mock-extended';
-import { CryptoService } from 'src/crypto/crypto.service';
-import { PrismaService } from 'src/prisma/prisma.service';
-import { createUserStub } from './stub/create-user.stub';
-import { UsersService } from './users.service';
+import { Test, TestingModule } from '@nestjs/testing'
+import { PrismaClient } from '@prisma/client'
+import { DeepMockProxy, mockDeep } from 'jest-mock-extended'
+import { CryptoService } from 'src/crypto/crypto.service'
+import { PrismaService } from 'src/prisma/prisma.service'
+import { createUserStub } from './stub/create-user.stub'
+import { UsersService } from './users.service'
 
 describe('UsersService', () => {
-  let service: UsersService;
-  let prismaMock: DeepMockProxy<PrismaClient>;
-  let cryptoService: DeepMockProxy<CryptoService>;
+  let service: UsersService
+  let prismaMock: DeepMockProxy<PrismaClient>
+  let cryptoService: DeepMockProxy<CryptoService>
 
   beforeEach(async () => {
-    prismaMock = mockDeep<PrismaClient>();
-    cryptoService = mockDeep<CryptoService>();
+    prismaMock = mockDeep<PrismaClient>()
+    cryptoService = mockDeep<CryptoService>()
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -27,23 +27,23 @@ describe('UsersService', () => {
           useValue: cryptoService,
         },
       ],
-    }).compile();
+    }).compile()
 
-    service = module.get<UsersService>(UsersService);
-  });
+    service = module.get<UsersService>(UsersService)
+  })
 
   describe('create method', () => {
     it('should hash user password', async () => {
-      await service.createUser(createUserStub.email, createUserStub.password);
+      await service.createUser(createUserStub.email, createUserStub.password)
 
-      expect(cryptoService.hash).toHaveBeenCalledWith(createUserStub.password);
+      expect(cryptoService.hash).toHaveBeenCalledWith(createUserStub.password)
 
       expect(prismaMock.user.create).not.toHaveBeenCalledWith({
         data: {
           email: createUserStub.email,
           password: createUserStub.password,
         },
-      });
-    });
-  });
-});
+      })
+    })
+  })
+})

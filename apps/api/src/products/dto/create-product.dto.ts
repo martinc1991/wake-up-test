@@ -1,32 +1,26 @@
-import { Prisma } from '@prisma/client';
-import {
-  IsBoolean,
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-  IsString,
-} from 'class-validator';
+import { Prisma } from '@prisma/client'
+import { IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator'
 
 export class CreateProductDto implements Prisma.ProductCreateWithoutMenuInput {
   @IsString()
   @IsNotEmpty()
-  title: string;
+  title: string
 
   @IsString()
   @IsOptional()
-  description?: string;
+  description?: string
 
   @IsString()
   @IsOptional()
-  section?: string;
+  section?: string
 
   @IsNumber()
-  price: number;
+  price: number
 
   @IsString()
-  menuId: string;
+  menuId: string
 
   @IsBoolean()
   @IsOptional()
-  published?: boolean;
+  published?: boolean
 }

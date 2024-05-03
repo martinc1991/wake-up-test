@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateRestaurantDto } from './dto/create-restaurant.dto';
-import { UpdateRestaurantDto } from './dto/update-restaurant.dto';
+import { Injectable } from '@nestjs/common'
+import { PrismaService } from 'src/prisma/prisma.service'
+import { CreateRestaurantDto } from './dto/create-restaurant.dto'
+import { UpdateRestaurantDto } from './dto/update-restaurant.dto'
 
 @Injectable()
 export class RestaurantsService {
@@ -16,33 +16,33 @@ export class RestaurantsService {
           },
         },
       },
-    });
+    })
   }
 
   findAll() {
-    return this.prisma.restaurant.findMany();
+    return this.prisma.restaurant.findMany()
   }
 
   findOne(id: string) {
     return this.prisma.restaurant.findUnique({
       where: { id },
-    });
+    })
   }
 
   findOneByOwner(ownerId: string) {
     return this.prisma.restaurant.findUnique({
       where: { ownerId },
-    });
+    })
   }
 
   update(id: string, updateRestaurantDto: UpdateRestaurantDto) {
     return this.prisma.restaurant.update({
       where: { id },
       data: updateRestaurantDto,
-    });
+    })
   }
 
   remove(id: string) {
-    return this.prisma.restaurant.delete({ where: { id } });
+    return this.prisma.restaurant.delete({ where: { id } })
   }
 }

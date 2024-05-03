@@ -1,24 +1,16 @@
-import {
-  ClassConstructor,
-  ClassTransformOptions,
-  plainToClass,
-} from 'class-transformer';
-import { ValidationError, validate } from 'class-validator';
+import { ClassConstructor, ClassTransformOptions, plainToClass } from 'class-transformer'
+import { ValidationError, validate } from 'class-validator'
 
 export async function getMessageFromClassValidatorError<T extends object>(
   classToCompare: ClassConstructor<T>,
   objectToCompare: T,
   options?: ClassTransformOptions | undefined,
 ): Promise<string | null> {
-  const errors = await validateObjectAgainstClass(
-    classToCompare,
-    objectToCompare,
-    options,
-  );
+  const errors = await validateObjectAgainstClass(classToCompare, objectToCompare, options)
 
-  if (!errors.length) return null;
+  if (!errors.length) return null
 
-  return formatErrorMessages(errors);
+  return formatErrorMessages(errors)
 }
 
 function validateObjectAgainstClass<T extends object>(
@@ -26,18 +18,18 @@ function validateObjectAgainstClass<T extends object>(
   objectToCompare: T,
   options?: ClassTransformOptions | undefined,
 ): Promise<ValidationError[]> {
-  const dto = plainToClass(classToCompare, objectToCompare, options);
-  return validate(dto);
+  const dto = plainToClass(classToCompare, objectToCompare, options)
+  return validate(dto)
 }
 
 function formatErrorMessages(errors: ValidationError[]) {
   return errors
     .map(({ constraints }) => {
-      let message = 'An error ocurred while validating user';
+      let message = 'An error ocurred while validating user'
       if (constraints) {
-        message = Object.values(constraints).join('. ');
+        message = Object.values(constraints).join('. ')
       }
-      return message;
+      return message
     })
-    .join('. ');
+    .join('. ')
 }

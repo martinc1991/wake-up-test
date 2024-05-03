@@ -1,4 +1,4 @@
-import { CreateProductDto } from '../dto/create-product.dto';
+import { CreateProductDto } from '../dto/create-product.dto'
 
 export const createProductStub: CreateProductDto = {
   title: 'test',
@@ -7,4 +7,4 @@ export const createProductStub: CreateProductDto = {
   published: true,
   section: 'test',
   menuId: 'test',
-};
+}
