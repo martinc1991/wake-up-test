@@ -13,6 +13,7 @@ export async function seedProducts() {
         create: {
           id: `fake-food-${restaurant.slug}-${i}`,
           name: faker.food.dish(),
+          description: faker.food.description(),
           price: faker.number.int({ min: 1, max: 100 }),
           restaurant: {
             connect: { slug: restaurant.slug },
@@ -21,6 +22,7 @@ export async function seedProducts() {
         update: {
           name: faker.food.dish(),
           price: faker.number.int({ min: 1, max: 100 }),
+          description: faker.food.description(),
           restaurant: {
             connect: { slug: restaurant.slug },
           },
