@@ -1,4 +1,4 @@
-import { Restaurant } from '@prisma/client'
+import { Restaurant, Prisma, Product } from '@prisma/client'
 
 export type FindManyRestaurantsResponse = Restaurant[]
-export type FindOneRestaurantResponse = Restaurant | null
+export type FindOneRestaurantResponse = (Restaurant & { products: Product[] }) | null

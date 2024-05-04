@@ -10,7 +10,6 @@ interface PageProps {
 }
 
 export default async function Page({ params }: PageProps) {
-  // I get an error on this call bacause of the controller
   const { data: restaurant } = await restaurantsApi.findOne(params.slug)
 
   if (!restaurant) notFound()

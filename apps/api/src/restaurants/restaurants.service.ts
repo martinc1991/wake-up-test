@@ -20,7 +20,7 @@ export class RestaurantsService {
   }
 
   findOneBySlug(slug: string) {
-    return this.prisma.restaurant.findUnique({ where: { slug } })
+    return this.prisma.restaurant.findUnique({ where: { slug }, include: { products: true } })
   }
 
   update(id: string, updateRestaurantDto: UpdateRestaurantDto) {

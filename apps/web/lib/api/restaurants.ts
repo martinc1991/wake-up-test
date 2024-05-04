@@ -1,15 +1,16 @@
 import { FindManyRestaurantsResponse, FindOneRestaurantResponse } from 'contract'
 import { ApiResponse } from './helpers'
 import { API } from './instance'
+import { cache } from 'react'
 
 const endpoint = '/restaurants'
 
-export const restaurantsApi = {
-  findAll(): ApiResponse<FindManyRestaurantsResponse> {
-    return API.get(endpoint)
-  },
-
-  findOne(id: string): ApiResponse<FindOneRestaurantResponse> {
-    return API.get(`${endpoint}/${id}`)
-  },
+const findAll = (): ApiResponse<FindManyRestaurantsResponse> => {
+  return API.get(endpoint)
 }
+
+const findOne = cache((id: string): ApiResponse<FindOneRestaurantResponse> => {
+  return API.get(`${endpoint}/${id}`)
+})
+
+export const restaurantsApi = { findAll, findOne }
