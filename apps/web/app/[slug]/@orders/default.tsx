@@ -1,11 +1,13 @@
 import { FlexDiv } from '@/components/flex-div'
 
-interface Props {}
+interface PageProps {
+  params: { slug: string }
+}
 
-export default function OrdersPage({}: Props) {
+export default function OrdersPage({ params }: PageProps) {
   return (
     <FlexDiv className='flex-col'>
-      <p>Orders</p>
+      <p>Orders: {params.slug}</p>
     </FlexDiv>
   )
 }

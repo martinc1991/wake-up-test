@@ -9,7 +9,7 @@ export default function RootLayout({
 }>) {
   return (
     <FlexDiv className='flex-1 h-full'>
-      <FlexDiv className='flex-1 p-4'>{children}</FlexDiv>
+      <FlexDiv className='flex-1 p-4 overflow-y-auto'>{children}</FlexDiv>
       <FlexDiv className='w-96 p-4 border-l border-black overflow-y-auto'>{orders}</FlexDiv>
     </FlexDiv>
   )

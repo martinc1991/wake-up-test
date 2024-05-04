@@ -19,17 +19,12 @@ export class RestaurantsService {
     return this.prisma.restaurant.findMany()
   }
 
-  findOne(id: string) {
-    return this.prisma.restaurant.findUnique({
-      where: { id },
-    })
+  findOneBySlug(slug: string) {
+    return this.prisma.restaurant.findUnique({ where: { slug }, include: { products: true } })
   }
 
   update(id: string, updateRestaurantDto: UpdateRestaurantDto) {
-    return this.prisma.restaurant.update({
-      where: { id },
-      data: updateRestaurantDto,
-    })
+    return this.prisma.restaurant.update({ where: { id }, data: updateRestaurantDto })
   }
 
   remove(id: string) {
