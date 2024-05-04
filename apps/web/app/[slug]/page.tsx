@@ -1,4 +1,8 @@
+import { FlexDiv } from '@/components/flex-div'
+import { MainButton } from '@/components/main-button'
+import { Typography } from '@/components/ui/typography'
 import { restaurantsApi } from '@/lib/api'
+import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 interface PageProps {
@@ -11,5 +15,15 @@ export default async function Page({ params }: PageProps) {
 
   if (!restaurant) notFound()
 
-  return <h1 className='capitalize'>{restaurant.name} main page</h1>
+  return (
+    <FlexDiv className='flex-col gap-4'>
+      <Typography.H1 className='capitalize mb-8'>{restaurant.name}</Typography.H1>
+      <FlexDiv className='flex-wrap gap-4'>
+        <MainButton>New order</MainButton>
+        <Link href={`${params.slug}/products`}>
+          <MainButton>Products</MainButton>
+        </Link>
+      </FlexDiv>
+    </FlexDiv>
+  )
 }

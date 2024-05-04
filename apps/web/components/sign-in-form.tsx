@@ -53,7 +53,7 @@ export function SignInForm() {
             <FormItem className='w-full'>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input placeholder='shadcn' {...field} />
+                <Input placeholder='username' {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -66,7 +66,7 @@ export function SignInForm() {
             <FormItem className='w-full'>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input type='password' {...field} />
+                <Input type='password' placeholder='password' {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
