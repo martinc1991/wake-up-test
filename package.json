@@ -3,6 +3,7 @@
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
+    "ui:add": "pnpm --filter web ui:add",
     "lint": "turbo lint",
     "type-check": "turbo type-check",
     "clean": "turbo clean",
@@ -12,7 +13,6 @@
     "eslint": "^8.57.0",
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.11",
-    "@repo/typescript-config": "workspace:*",
     "turbo": "latest"
   },
   "engines": {

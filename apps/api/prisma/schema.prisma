@@ -1,0 +1,65 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id String @id @default(cuid())
+
+  email        String  @unique
+  password     String
+  refreshToken String?
+
+  restaurant Restaurant?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Restaurant {
+  id String @id @default(cuid())
+
+  name String
+
+  owner   User   @relation(fields: [ownerId], references: [id])
+  ownerId String @unique
+
+  menu Menu?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Menu {
+  id String @id @default(cuid())
+
+  title       String
+  description String?
+
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  restaurantId String     @unique
+
+  Products Product[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  title       String
+  description String?  @default("")
+  section     String?  @default("")
+  price       Float
+  menu        Menu     @relation(fields: [menuId], references: [id])
+  menuId      String
+  published   Boolean? @default(true)
+  available   Boolean? @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
