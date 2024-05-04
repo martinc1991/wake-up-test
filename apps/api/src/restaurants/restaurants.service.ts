@@ -10,6 +10,7 @@ export class RestaurantsService {
     return this.prisma.restaurant.create({
       data: {
         name: createRestaurantDto.name,
+        slug: createRestaurantDto.slug,
       },
     })
   }
