@@ -10,8 +10,12 @@ export class OrdersService {
     return this.prisma.order.create({ data: createOrderDto })
   }
 
-  findAll() {
-    return this.prisma.order.findMany()
+  findAll(slug?: string) {
+    return this.prisma.order.findMany({
+      where: {
+        restaurant: { slug },
+      },
+    })
   }
 
   findOne(id: string) {

@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common'
-import { OrdersService } from './orders.service'
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common'
+import { FindManyOrdersResponse } from 'contract'
 import { CreateOrderDto } from './dto/create-order.dto'
 import { UpdateOrderDto } from './dto/update-order.dto'
+import { OrdersService } from './orders.service'
 
 @Controller('orders')
 export class OrdersController {
@@ -13,8 +14,8 @@ export class OrdersController {
   }
 
   @Get()
-  findAll() {
-    return this.ordersService.findAll()
+  findAll(@Query('slug') slug?: string): Promise<FindManyOrdersResponse> {
+    return this.ordersService.findAll(slug)
   }
 
   @Get(':id')
