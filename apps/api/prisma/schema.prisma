@@ -7,58 +7,54 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id String @id @default(cuid())
-
-  email        String  @unique
-  password     String
-  refreshToken String?
-
-  restaurant Restaurant?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
 model Restaurant {
   id String @id @default(cuid())
 
   name String
 
-  owner   User   @relation(fields: [ownerId], references: [id])
-  ownerId String @unique
-
-  menu Menu?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Menu {
-  id String @id @default(cuid())
-
-  title       String
-  description String?
-
-  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
-  restaurantId String     @unique
-
-  Products Product[]
+  products Product[]
+  orders   Order[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Product {
-  id          String   @id @default(cuid())
-  title       String
-  description String?  @default("")
-  section     String?  @default("")
-  price       Float
-  menu        Menu     @relation(fields: [menuId], references: [id])
-  menuId      String
-  published   Boolean? @default(true)
-  available   Boolean? @default(true)
+  id    String @id @default(cuid())
+  name  String
+  price Float
+
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  restaurantId String
+
+  OrderItem Item[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Order {
+  id String @id @default(cuid())
+
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  restaurantId String
+
+  items Item[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Item {
+  id String @id @default(cuid())
+
+  quantity Int @default(1)
+
+  product   Product @relation(fields: [productId], references: [id])
+  productId String
+
+  order   Order  @relation(fields: [orderId], references: [id])
+  orderId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

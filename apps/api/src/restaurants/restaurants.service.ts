@@ -6,15 +6,10 @@ import { UpdateRestaurantDto } from './dto/update-restaurant.dto'
 @Injectable()
 export class RestaurantsService {
   constructor(private prisma: PrismaService) {}
-  create(createRestaurantDto: CreateRestaurantDto, ownerId: string) {
+  create(createRestaurantDto: CreateRestaurantDto) {
     return this.prisma.restaurant.create({
       data: {
         name: createRestaurantDto.name,
-        owner: {
-          connect: {
-            id: ownerId,
-          },
-        },
       },
     })
   }
@@ -26,12 +21,6 @@ export class RestaurantsService {
   findOne(id: string) {
     return this.prisma.restaurant.findUnique({
       where: { id },
-    })
-  }
-
-  findOneByOwner(ownerId: string) {
-    return this.prisma.restaurant.findUnique({
-      where: { ownerId },
     })
   }
 
