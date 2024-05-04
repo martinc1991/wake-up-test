@@ -108,6 +108,9 @@ importers:
       '@typescript-eslint/parser':
         specifier: ^6.0.0
         version: 6.12.0(eslint@8.57.0)(typescript@5.4.5)
+      contract:
+        specifier: workspace:*
+        version: link:../../packages/contract
       dotenv-cli:
         specifier: ^7.4.1
         version: 7.4.1
@@ -208,6 +211,9 @@ importers:
       '@types/react-dom':
         specifier: ^18
         version: 18.3.0
+      contract:
+        specifier: workspace:*
+        version: link:../../packages/contract
       eslint:
         specifier: ^8
         version: 8.57.0
@@ -223,6 +229,15 @@ importers:
       typescript:
         specifier: ^5
         version: 5.4.5
+
+  packages/contract:
+    devDependencies:
+      '@prisma/client':
+        specifier: 5.13.0
+        version: 5.13.0(prisma@5.13.0)
+      prisma:
+        specifier: ^5.13.0
+        version: 5.13.0
 
 packages:
 

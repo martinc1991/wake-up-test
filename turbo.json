@@ -7,6 +7,9 @@
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
     },
     "ui:add": {},
+    "prisma:generate": {},
+    "prisma:migrate": {},
+    "prisma:push": {},
     "lint": {},
     "type-check": {},
     "dev": {
