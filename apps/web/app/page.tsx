@@ -1,9 +1,9 @@
-import { Button } from '@/components/ui/button'
+import { FlexDiv } from '@/components/flex-div'
 
 export default function Home() {
   return (
-    <main className='flex min-h-screen flex-col items-center justify-between p-24'>
-      <Button>Press me</Button>
-    </main>
+    <FlexDiv centered>
+      <h1>Fake signin</h1>
+    </FlexDiv>
   )
 }
