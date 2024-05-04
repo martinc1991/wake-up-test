@@ -1,10 +1,7 @@
 import { CreateProductDto } from '../dto/create-product.dto'
 
 export const createProductStub: CreateProductDto = {
-  title: 'test',
-  description: 'test',
+  name: 'test',
   price: 100,
-  published: true,
-  section: 'test',
-  menuId: 'test',
+  restaurantId: 'test',
 }
