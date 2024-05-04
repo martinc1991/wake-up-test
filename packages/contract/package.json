@@ -1,0 +1,17 @@
+{
+  "name": "contract",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "scripts": {
+    "prisma:generate": "pnpm prisma generate --schema=../../apps/api/prisma/schema.prisma"
+  },
+  "keywords": [],
+  "author": "MartinC",
+  "license": "ISC",
+  "devDependencies": {
+    "@prisma/client": "5.13.0",
+    "prisma": "^5.13.0"
+  }
+}

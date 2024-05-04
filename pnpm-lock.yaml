@@ -108,6 +108,9 @@ importers:
       '@typescript-eslint/parser':
         specifier: ^6.0.0
         version: 6.12.0(eslint@8.57.0)(typescript@5.4.5)
+      contract:
+        specifier: workspace:*
+        version: link:../../packages/contract
       dotenv-cli:
         specifier: ^7.4.1
         version: 7.4.1
@@ -168,6 +171,9 @@ importers:
       '@radix-ui/react-slot':
         specifier: ^1.0.2
         version: 1.0.2(@types/react@18.2.61)(react@18.3.1)
+      axios:
+        specifier: ^1.6.8
+        version: 1.6.8
       class-variance-authority:
         specifier: ^0.7.0
         version: 0.7.0
@@ -205,6 +211,9 @@ importers:
       '@types/react-dom':
         specifier: ^18
         version: 18.3.0
+      contract:
+        specifier: workspace:*
+        version: link:../../packages/contract
       eslint:
         specifier: ^8
         version: 8.57.0
@@ -220,6 +229,15 @@ importers:
       typescript:
         specifier: ^5
         version: 5.4.5
+
+  packages/contract:
+    devDependencies:
+      '@prisma/client':
+        specifier: 5.13.0
+        version: 5.13.0(prisma@5.13.0)
+      prisma:
+        specifier: ^5.13.0
+        version: 5.13.0
 
 packages:
 
@@ -1367,6 +1385,9 @@ packages:
     resolution: {integrity: sha512-M0JtH+hlOL5pLQwHOLNYZaXuhqmvS8oExsqB1SBYgA4Dk7u/xx+YdGHXaK5pyUfed5mYXdlYiphWq3G8cRi5JQ==}
     engines: {node: '>=4'}
 
+  axios@1.6.8:
+    resolution: {integrity: sha512-v/ZHtJDU39mDpyBoFVkETcd/uNdxrWRrg3bKpOKzXFA6Bvqopts6ALSMU3y6ijYxbw2B+wPrIv46egTzJXCLGQ==}
+
   axobject-query@3.2.1:
     resolution: {integrity: sha512-jsyHu61e6N4Vbz/v18DHwWYKK0bSWLqn47eeDSKPB7m8tqMHF9YJ+mhIk2lVteyZrY8tnSj/jHOv4YiTCuCJgg==}
 
@@ -2108,6 +2129,15 @@ packages:
 
   flatted@3.3.1:
     resolution: {integrity: sha512-X8cqMLLie7KsNUDSdzeN8FYK9rEt4Dt67OsG/DNGnYTSDBG4uFAJFBnUeiV+zCVAvwFy56IjM9sH51jVaEhNxw==}
+
+  follow-redirects@1.15.6:
+    resolution: {integrity: sha512-wWN62YITEaOpSK584EZXJafH1AGpO8RVgElfkuXbTOrPX4fIfOyEpW/CsiNd8JdYrAoOvafRTOEnvsO++qCqFA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
 
   for-each@0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
@@ -3323,6 +3353,9 @@ packages:
   proxy-addr@2.0.7:
     resolution: {integrity: sha512-llQsMLSUDUPT44jdrU/O37qlnifitDP+ZwrmmZcoSKyLKvtZxpyV0n2/bD/N4tBAAZ/gJEdZU7KMraoK1+XYAg==}
     engines: {node: '>= 0.10'}
+
+  proxy-from-env@1.1.0:
+    resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==}
 
   punycode@2.3.1:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
@@ -5539,6 +5572,14 @@ snapshots:
 
   axe-core@4.7.0: {}
 
+  axios@1.6.8:
+    dependencies:
+      follow-redirects: 1.15.6
+      form-data: 4.0.0
+      proxy-from-env: 1.1.0
+    transitivePeerDependencies:
+      - debug
+
   axobject-query@3.2.1:
     dependencies:
       dequal: 2.0.3
@@ -6454,6 +6495,8 @@ snapshots:
       rimraf: 3.0.2
 
   flatted@3.3.1: {}
+
+  follow-redirects@1.15.6: {}
 
   for-each@0.3.3:
     dependencies:
@@ -7827,6 +7870,8 @@ snapshots:
     dependencies:
       forwarded: 0.2.0
       ipaddr.js: 1.9.1
+
+  proxy-from-env@1.1.0: {}
 
   punycode@2.3.1: {}
 
