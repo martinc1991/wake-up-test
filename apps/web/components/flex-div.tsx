@@ -1,11 +1,15 @@
 import { cn } from '@/lib/utils'
 
-interface FlexDivProps {
+interface FlexDivProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode
   className?: string
   centered?: boolean
 }
 
-export function FlexDiv(props: FlexDivProps) {
-  return <div className={cn('flex', props.centered && 'items-center justify-center', props.className)}>{props.children}</div>
+export function FlexDiv({ centered, children, className, ...props }: FlexDivProps) {
+  return (
+    <div className={cn('flex', centered && 'items-center justify-center', className)} {...props}>
+      {children}
+    </div>
+  )
 }
