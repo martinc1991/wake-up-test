@@ -43,6 +43,8 @@ model Order {
   restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
   restaurantId String
 
+  status OrderStatus @default(PENDING)
+
   items Item[]
 
   createdAt DateTime @default(now())
@@ -62,4 +64,9 @@ model Item {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+enum OrderStatus {
+  PENDING
+  FULLFILLED
 }
