@@ -1,4 +1,4 @@
-import { FindManyOrdersResponse } from 'contract'
+import { CreateOrderPayload, CreateOrderResponse, FindManyOrdersResponse } from 'contract'
 import { ApiResponse } from './helpers'
 import { API } from './instance'
 
@@ -11,5 +11,9 @@ export const ordersApi = {
 
   findOne(id: string) {
     return API.get(`${endpoint}/${id}`)
+  },
+
+  create(createOrderPayload: CreateOrderPayload): ApiResponse<CreateOrderResponse> {
+    return API.post(`${endpoint}`, createOrderPayload)
   },
 }
