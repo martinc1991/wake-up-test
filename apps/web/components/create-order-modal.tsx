@@ -88,11 +88,10 @@ export function CreateOrderModal(props: CreateOrderModalProps) {
   }
 
   return (
-    // TODO: remove open
     <Dialog>
       <DialogTrigger asChild>{props.children}</DialogTrigger>
 
-      <DialogContent className='w-full max-w-3xl max-h-[90vh] h-full'>
+      <DialogContent className='w-full max-w-4xl max-h-[90vh] h-full'>
         <DialogHeader>
           <DialogTitle>
             <Typography.H3>New Order</Typography.H3>

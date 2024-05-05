@@ -21,7 +21,7 @@ function TypographyP({ children, className }: { className?: string; children?: R
 }
 
 function TypographySmall({ children, className }: { className?: string; children?: React.ReactNode }) {
-  return <small className={cn('text-sm font-medium leading-none', className)}>{children}</small>
+  return <small className={cn('text-sm font-medium', className)}>{children}</small>
 }
 
 function TypographyMuted({ children, className }: { className?: string; children?: React.ReactNode }) {
