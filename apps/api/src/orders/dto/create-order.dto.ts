@@ -1,7 +1,26 @@
 import { Prisma } from '@prisma/client'
+import { Type } from 'class-transformer'
+import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString, Min, ValidateNested } from 'class-validator'
+import { CreateOrderPayload } from 'contract'
 
-export class CreateOrderDto {
-  restaurantId: string
+class OrderItem implements Prisma.ItemCreateManyOrderInput {
+  @IsNumber()
+  @Min(1)
+  @IsOptional()
+  quantity?: number
 
-  items: Prisma.ItemUncheckedCreateNestedManyWithoutOrderInput
+  @IsString()
+  @IsNotEmpty()
+  productId: string
+}
+
+export class CreateOrderDto implements CreateOrderPayload {
+  @IsString()
+  @IsNotEmpty()
+  slug: string
+
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => OrderItem)
+  items: Prisma.ItemCreateManyOrderInput[]
 }
