@@ -104,7 +104,7 @@ export function CreateOrderModal(props: CreateOrderModalProps) {
         </FlexDiv>
         <Separator />
         <FlexDiv className='flex-1 overflow-y-auto'>
-          <ProductsList products={props.restaurant.products} onProuctClick={addItem} />
+          <ProductsList products={props.restaurant.products} onProductClick={addItem} />
         </FlexDiv>
         <DialogFooter>
           <DialogClose asChild>
