@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common'
+import { FindManyOrdersResponse } from 'contract'
+import { PrismaService } from 'src/prisma/prisma.service'
 import { CreateOrderDto } from './dto/create-order.dto'
 import { UpdateOrderDto } from './dto/update-order.dto'
-import { PrismaService } from 'src/prisma/prisma.service'
 
 @Injectable()
 export class OrdersService {
@@ -30,10 +31,17 @@ export class OrdersService {
     })
   }
 
-  findAll(slug?: string) {
+  findAll(slug?: string): Promise<FindManyOrdersResponse> {
     return this.prisma.order.findMany({
       where: {
         restaurant: { slug },
+      },
+      include: {
+        items: {
+          include: {
+            product: true,
+          },
+        },
       },
     })
   }

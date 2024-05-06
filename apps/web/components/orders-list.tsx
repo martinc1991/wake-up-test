@@ -6,6 +6,9 @@ import { Typography } from '@/components/ui/typography'
 import { FindManyOrdersResponse } from 'contract'
 import { formatDistance } from 'date-fns'
 import { useEffect, useState } from 'react'
+import { SelectedItems } from './selected-items-list'
+import { Button } from './ui/button'
+import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog'
 
 interface OrdersListProps {
   orders: FindManyOrdersResponse
@@ -13,6 +16,7 @@ interface OrdersListProps {
 
 export function OrdersList(props: OrdersListProps) {
   const [now, setNow] = useState<Date>(new Date())
+  const [selectedOrder, setSelectedOrder] = useState<FindManyOrdersResponse[number] | null>(null)
 
   useEffect(() => {
     const interval = setInterval(() => setNow(new Date()), 1000 * 60)
@@ -27,27 +31,78 @@ export function OrdersList(props: OrdersListProps) {
     )
 
   return (
-    <FlexDiv column className='flex-1 overflow-y-auto'>
-      {props.orders.map((order) => {
-        const result = formatDistance(now, new Date(order.createdAt), { includeSeconds: true })
-        const timeAgoText = result.charAt(0).toUpperCase() + result.slice(1) + ' ago'
+    <Dialog>
+      <FlexDiv column className='flex-1 overflow-y-auto'>
+        {props.orders.map((order) => {
+          const result = formatDistance(now, new Date(order.createdAt), { includeSeconds: true })
+          const timeAgoText = result.charAt(0).toUpperCase() + result.slice(1) + ' ago'
 
-        return (
-          <FlexDiv
-            key={order.id}
-            className='w-full h-16 border-b items-center p-2 hover:bg-slate-300 cursor-pointer transition duration-150'
-          >
-            <FlexDiv column className='flex-1'>
-              <Typography.Small>Table {order.table}</Typography.Small>
-              <Typography.Small>{timeAgoText}</Typography.Small>
+          return (
+            <DialogTrigger asChild key={order.id} onClick={() => setSelectedOrder(order)}>
+              <FlexDiv className='w-full h-16 border-b items-center p-2 hover:bg-slate-300 cursor-pointer transition duration-150'>
+                <FlexDiv column className='flex-1'>
+                  <Typography.Small>Table {order.table}</Typography.Small>
+                  <Typography.Small>{timeAgoText}</Typography.Small>
+                </FlexDiv>
+
+                <FlexDiv className='p-1'>
+                  <StatusBadge status={order.status}></StatusBadge>
+                </FlexDiv>
+              </FlexDiv>
+            </DialogTrigger>
+          )
+        })}
+      </FlexDiv>
+      {selectedOrder && <OrderModal order={selectedOrder} />}
+    </Dialog>
+  )
+}
+
+interface OrderModalProps {
+  order: FindManyOrdersResponse[number]
+}
+
+function OrderModal(props: OrderModalProps) {
+  const total = props.order.items.reduce((acc, item) => acc + item.product.price * item.quantity, 0)
+
+  return (
+    <DialogContent className='w-full max-w-3xl'>
+      <DialogHeader>
+        <DialogTitle>
+          <Typography.H3>Order details</Typography.H3>
+        </DialogTitle>
+      </DialogHeader>
+
+      <FlexDiv column className='flex-1 overflow-y-auto gap-4'>
+        <FlexDiv column>
+          <Typography.H4>Information</Typography.H4>
+          <FlexDiv className='justify-between'>
+            <FlexDiv className='gap-2'>
+              <Typography.Muted>Table:</Typography.Muted>
+              <Typography.Small>{props.order.table}</Typography.Small>
             </FlexDiv>
-
-            <FlexDiv className='p-1'>
-              <StatusBadge status={order.status}></StatusBadge>
+            <FlexDiv>
+              <StatusBadge status={props.order.status}></StatusBadge>
             </FlexDiv>
           </FlexDiv>
-        )
-      })}
-    </FlexDiv>
+        </FlexDiv>
+        <FlexDiv column>
+          <Typography.H4>Items</Typography.H4>
+          <SelectedItems items={props.order.items} />
+        </FlexDiv>
+
+        <FlexDiv className='justify-between'>
+          <Typography.H4>Total</Typography.H4>
+          <Typography.H4>$ {total}</Typography.H4>
+        </FlexDiv>
+      </FlexDiv>
+
+      <DialogFooter className='mt-8'>
+        <DialogClose asChild>
+          <Button variant='destructive'>Cancel</Button>
+        </DialogClose>
+        <Button>Fulfill</Button>
+      </DialogFooter>
+    </DialogContent>
   )
 }

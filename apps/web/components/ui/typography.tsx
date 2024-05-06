@@ -19,6 +19,9 @@ function TypographyH4({ children, className }: { className?: string; children?: 
 function TypographyP({ children, className }: { className?: string; children?: React.ReactNode }) {
   return <p className={cn('leading-7 [&:not(:first-child)]:mt-6', className)}>{children}</p>
 }
+function TypographyWord({ children, className }: { className?: string; children?: React.ReactNode }) {
+  return <span className={cn('leading-7', className)}>{children}</span>
+}
 
 function TypographySmall({ children, className }: { className?: string; children?: React.ReactNode }) {
   return <small className={cn('text-sm font-medium', className)}>{children}</small>
@@ -34,6 +37,7 @@ export const Typography = {
   H3: TypographyH3,
   H4: TypographyH4,
   P: TypographyP,
+  Word: TypographyWord,
   Small: TypographySmall,
   Muted: TypographyMuted,
 }
