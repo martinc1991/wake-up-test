@@ -1,10 +1,9 @@
 'use client'
 
-import React from 'react'
+import { cn } from '@/lib/utils'
+import { Product } from 'contract'
 import { FlexDiv } from './flex-div'
 import { Typography } from './ui/typography'
-import { Product } from 'contract'
-import { cn } from '@/lib/utils'
 
 interface ProductsListProps {
   products: Product[]
@@ -18,7 +17,7 @@ export function ProductsList(props: ProductsListProps) {
         <FlexDiv
           key={product.id}
           className={cn(
-            'flex-col p-2 w-full first:rounded-t last:rounded-b',
+            'flex-col p-2 first:rounded-t last:rounded-b',
             i % 2 === 0 ? 'bg-slate-300' : 'bg-slate-200',
             props.onProductClick && 'cursor-pointer hover:bg-slate-400 transition duration-300',
           )}
@@ -27,7 +26,7 @@ export function ProductsList(props: ProductsListProps) {
           <Typography.H4>
             {product.name} (${product.price})
           </Typography.H4>
-          <Typography.Small className='truncate'>{product.description}</Typography.Small>
+          <Typography.Small>{product.description}</Typography.Small>
         </FlexDiv>
       ))}
     </FlexDiv>
