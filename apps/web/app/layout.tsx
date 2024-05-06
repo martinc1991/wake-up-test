@@ -1,4 +1,5 @@
 import { FlexDiv } from '@/components/flex-div'
+import { Toaster } from '@/components/ui/toaster'
 import { cn } from '@/lib/utils'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
@@ -25,6 +26,7 @@ export default function RootLayout({
         <FlexDiv className='flex-1 overflow-hidden' centered>
           {children}
         </FlexDiv>
+        <Toaster />
       </body>
     </html>
   )

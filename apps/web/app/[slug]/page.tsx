@@ -1,3 +1,4 @@
+import { CreateOrderModal } from '@/components/create-order-modal'
 import { FlexDiv } from '@/components/flex-div'
 import { MainButton } from '@/components/main-button'
 import { Typography } from '@/components/ui/typography'
@@ -18,7 +19,9 @@ export default async function Page({ params }: PageProps) {
     <FlexDiv className='flex-col gap-4'>
       <Typography.H1 className='capitalize mb-8'>{restaurant.name}</Typography.H1>
       <FlexDiv className='flex-wrap gap-4'>
-        <MainButton>New order</MainButton>
+        <CreateOrderModal restaurant={restaurant}>
+          <MainButton>New order</MainButton>
+        </CreateOrderModal>
         <Link href={`${params.slug}/products`}>
           <MainButton>Products</MainButton>
         </Link>
