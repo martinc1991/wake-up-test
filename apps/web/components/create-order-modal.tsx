@@ -6,6 +6,7 @@ import { CreateOrderPayload, FindOneRestaurantResponse, Product } from 'contract
 import { useReducer, useState } from 'react'
 import { FlexDiv } from './flex-div'
 import { ProductsList } from './products-list'
+import { TableSelect } from './table-select'
 import { Button } from './ui/button'
 import { Separator } from './ui/separator'
 import { Typography } from './ui/typography'
@@ -17,6 +18,7 @@ interface CreateOrderModalProps {
 }
 
 type Action =
+  | { type: 'CHANGE_TABLE'; payload: { table: number } }
   | { type: 'ADD_ITEM'; payload: { product: Product } }
   | { type: 'REMOVE_ITEM'; payload: { id: string } }
   | { type: 'CHANGE_QUANTITY'; payload: { id: string; quantity: number } }
@@ -27,14 +29,22 @@ interface State {
     product: Product
     quantity: number
   }[]
+  table: number
 }
 
 const initialState: State = {
   items: [],
+  table: 1,
 }
 
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
+    case 'CHANGE_TABLE':
+      return {
+        ...state,
+        table: action.payload.table,
+      }
+
     case 'ADD_ITEM':
       if (state.items.some((item) => item.product.id === action.payload.product.id)) {
         return state
@@ -65,6 +75,10 @@ export function CreateOrderModal(props: CreateOrderModalProps) {
   const [open, setOpen] = useState(false)
   const { toast } = useToast()
 
+  const changeTable = (table: string) => {
+    dispatch({ type: 'CHANGE_TABLE', payload: { table: parseInt(table) } })
+  }
+
   const addItem = (product: Product) => {
     dispatch({ type: 'ADD_ITEM', payload: { product } })
   }
@@ -82,6 +96,7 @@ export function CreateOrderModal(props: CreateOrderModalProps) {
       const payload: CreateOrderPayload = {
         slug: props.restaurant.slug,
         items: state.items.map((item) => ({ productId: item.product.id, quantity: item.quantity })),
+        table: state.table,
       }
 
       await createOrder(payload)
@@ -115,6 +130,7 @@ export function CreateOrderModal(props: CreateOrderModalProps) {
           </DialogTitle>
         </DialogHeader>
         <FlexDiv className='flex-col'>
+          <TableSelect onChange={changeTable} />
           <Typography.H4>Order items</Typography.H4>
           <SelectedItems items={state.items} removeItem={removeItem} changeQuantity={changeQuantity} />
         </FlexDiv>

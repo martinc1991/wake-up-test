@@ -7,5 +7,6 @@ export type FindOneOrderResponse = Order | null
 export type CreateOrderPayload = {
   slug: string
   items: Prisma.ItemCreateManyOrderInput[]
+  table: number
 }
 export type CreateOrderResponse = Order

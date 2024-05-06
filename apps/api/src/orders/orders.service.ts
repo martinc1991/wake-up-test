@@ -11,6 +11,7 @@ export class OrdersService {
       const order = await prismaTransaction.order.create({
         data: {
           restaurant: { connect: { slug: createOrderDto.slug } },
+          table: createOrderDto.table,
         },
       })
 

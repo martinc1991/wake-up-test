@@ -38,7 +38,7 @@ export function OrdersList(props: OrdersListProps) {
             className='w-full h-16 border-b items-center p-2 hover:bg-slate-300 cursor-pointer transition duration-150'
           >
             <FlexDiv column className='flex-1'>
-              <Typography.Small>Table 6</Typography.Small>
+              <Typography.Small>Table {order.table}</Typography.Small>
               <Typography.Small>{timeAgoText}</Typography.Small>
             </FlexDiv>
 
