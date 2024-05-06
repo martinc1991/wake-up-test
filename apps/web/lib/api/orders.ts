@@ -12,8 +12,8 @@ import { API } from './instance'
 const endpoint = '/orders'
 
 export const ordersApi = {
-  findAllByRestaurant(slug: string): ApiResponse<FindManyOrdersResponse> {
-    return API.get(endpoint, { params: { slug } })
+  findAllByRestaurant(slug: string, status?: OrderStatus): ApiResponse<FindManyOrdersResponse> {
+    return API.get(endpoint, { params: { slug, status } })
   },
 
   findOne(id: string) {

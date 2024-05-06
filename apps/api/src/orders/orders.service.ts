@@ -3,7 +3,7 @@ import { FindManyOrdersResponse } from 'contract'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { CreateOrderDto } from './dto/create-order.dto'
 import { UpdateOrderDto } from './dto/update-order.dto'
-import { Order } from '@prisma/client'
+import { Order, OrderStatus } from '@prisma/client'
 
 @Injectable()
 export class OrdersService {
@@ -32,10 +32,11 @@ export class OrdersService {
     })
   }
 
-  findAll(slug?: string): Promise<FindManyOrdersResponse> {
+  findAll(slug?: string, status?: OrderStatus): Promise<FindManyOrdersResponse> {
     return this.prisma.order.findMany({
       where: {
         restaurant: { slug },
+        status: status,
       },
       include: {
         items: {

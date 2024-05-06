@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common'
-import { Order } from '@prisma/client'
+import { Order, OrderStatus } from '@prisma/client'
 import { FindManyOrdersResponse } from 'contract'
 import { CreateOrderDto } from './dto/create-order.dto'
 import { UpdateOrderDto } from './dto/update-order.dto'
@@ -15,8 +15,8 @@ export class OrdersController {
   }
 
   @Get()
-  findAll(@Query('slug') slug?: string): Promise<FindManyOrdersResponse> {
-    return this.ordersService.findAll(slug)
+  findAll(@Query('slug') slug?: string, @Query('status') status?: OrderStatus): Promise<FindManyOrdersResponse> {
+    return this.ordersService.findAll(slug, status)
   }
 
   @Get(':id')
