@@ -12,7 +12,7 @@ export class RestaurantsController {
   }
 
   @Get(':slug')
-  async findOne(@Param('slug') slug: string): Promise<FindOneRestaurantResponse> {
+  async findOne(@Param('slug') slug: string): Promise<FindOneRestaurantResponse | null> {
     return await this.restaurantsService.findOneBySlug(slug)
   }
 }
