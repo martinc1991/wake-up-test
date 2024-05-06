@@ -1,13 +1,9 @@
 import { FlexDiv } from '@/components/flex-div'
-import { Button } from '@/components/ui/button'
 import { Toaster } from '@/components/ui/toaster'
-import { Typography } from '@/components/ui/typography'
 import { cn } from '@/lib/utils'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import Link from 'next/link'
 import './globals.css'
-import { Header } from '@/components/header'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 
@@ -23,9 +19,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={cn('h-screen bg-background font-sans antialiased flex flex-col', inter.variable)}>
-        <Header />
-        <FlexDiv className='flex-1 overflow-hidden' centered>
+      <body className={cn('h-screen w-screen bg-background font-sans antialiased', inter.variable)}>
+        <FlexDiv centered className='h-full w-full flex-1'>
           {children}
         </FlexDiv>
         <Toaster />

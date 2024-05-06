@@ -7,7 +7,7 @@ const prisma = new PrismaClient()
 export async function seedProducts() {
   for (const restaurant of SEED_RESTAURANTS) {
     // Products
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 100; i++) {
       await prisma.product.upsert({
         where: { id: `fake-food-${restaurant.slug}-${i}` },
         create: {
