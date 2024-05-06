@@ -10,6 +10,10 @@
     "prisma:generate": {},
     "prisma:migrate": {},
     "prisma:push": {},
+    "studio": {
+      "cache": false,
+      "persistent": true
+    },
     "lint": {},
     "type-check": {},
     "dev": {

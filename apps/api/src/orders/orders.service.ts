@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common'
+import { FindManyOrdersResponse } from 'contract'
+import { PrismaService } from 'src/prisma/prisma.service'
 import { CreateOrderDto } from './dto/create-order.dto'
 import { UpdateOrderDto } from './dto/update-order.dto'
-import { PrismaService } from 'src/prisma/prisma.service'
+import { Order, OrderStatus } from '@prisma/client'
 
 @Injectable()
 export class OrdersService {
@@ -11,6 +13,7 @@ export class OrdersService {
       const order = await prismaTransaction.order.create({
         data: {
           restaurant: { connect: { slug: createOrderDto.slug } },
+          table: createOrderDto.table,
         },
       })
 
@@ -29,10 +32,21 @@ export class OrdersService {
     })
   }
 
-  findAll(slug?: string) {
+  findAll(slug?: string, status?: OrderStatus): Promise<FindManyOrdersResponse> {
     return this.prisma.order.findMany({
       where: {
         restaurant: { slug },
+        status: status,
+      },
+      include: {
+        items: {
+          include: {
+            product: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'asc',
       },
     })
   }
@@ -41,8 +55,7 @@ export class OrdersService {
     return this.prisma.order.findUnique({ where: { id } })
   }
 
-  update(id: string, updateOrderDto: UpdateOrderDto) {
-    // TODO:
+  update(id: string, updateOrderDto: UpdateOrderDto): Promise<Order> {
     let newProductsIds: { id: string }[] | undefined
 
     if (updateOrderDto.items) {
@@ -51,11 +64,7 @@ export class OrdersService {
 
     return this.prisma.order.update({
       where: { id },
-      data: {
-        items: {
-          set: newProductsIds,
-        },
-      },
+      data: { ...updateOrderDto, items: { set: newProductsIds } },
     })
   }
 

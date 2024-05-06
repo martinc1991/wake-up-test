@@ -1,12 +1,19 @@
-import { CreateOrderPayload, CreateOrderResponse, FindManyOrdersResponse } from 'contract'
+import {
+  CreateOrderPayload,
+  CreateOrderResponse,
+  FindManyOrdersResponse,
+  FulfillOrderPayload,
+  FulfillOrderResponse,
+  OrderStatus,
+} from 'contract'
 import { ApiResponse } from './helpers'
 import { API } from './instance'
 
 const endpoint = '/orders'
 
 export const ordersApi = {
-  findAllByRestaurant(slug: string): ApiResponse<FindManyOrdersResponse> {
-    return API.get(endpoint, { params: { slug } })
+  findAllByRestaurant(slug: string, status?: OrderStatus): ApiResponse<FindManyOrdersResponse> {
+    return API.get(endpoint, { params: { slug, status } })
   },
 
   findOne(id: string) {
@@ -15,5 +22,11 @@ export const ordersApi = {
 
   create(createOrderPayload: CreateOrderPayload): ApiResponse<CreateOrderResponse> {
     return API.post(`${endpoint}`, createOrderPayload)
+  },
+
+  fulfill(orderId: string): ApiResponse<FulfillOrderResponse> {
+    return API.patch(`${endpoint}/${orderId}`, {
+      status: OrderStatus.FULLFILLED,
+    })
   },
 }

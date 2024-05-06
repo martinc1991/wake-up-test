@@ -1,6 +1,6 @@
-import { Prisma } from '@prisma/client'
+import { OrderStatus, Prisma } from '@prisma/client'
 import { Type } from 'class-transformer'
-import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString, Min, ValidateNested } from 'class-validator'
+import { IsArray, IsEnum, IsInt, IsNotEmpty, IsNumber, IsOptional, IsString, Min, ValidateNested } from 'class-validator'
 import { CreateOrderPayload } from 'contract'
 
 class OrderItem implements Prisma.ItemCreateManyOrderInput {
@@ -19,8 +19,16 @@ export class CreateOrderDto implements CreateOrderPayload {
   @IsNotEmpty()
   slug: string
 
+  @IsInt()
+  @Min(1)
+  table: number
+
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => OrderItem)
   items: Prisma.ItemCreateManyOrderInput[]
+
+  @IsEnum(OrderStatus)
+  @IsOptional()
+  status: OrderStatus
 }
