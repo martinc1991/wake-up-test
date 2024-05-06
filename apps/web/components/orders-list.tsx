@@ -3,7 +3,7 @@
 import { FlexDiv } from '@/components/flex-div'
 import StatusBadge from '@/components/status-badge'
 import { Typography } from '@/components/ui/typography'
-import { FindManyOrdersResponse } from 'contract'
+import { FindManyOrdersResponse, OrderStatus } from 'contract'
 import { formatDistance } from 'date-fns'
 import { useCallback, useEffect, useState } from 'react'
 import { SelectedItems } from './selected-items-list'
@@ -11,10 +11,13 @@ import { Button } from './ui/button'
 import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog'
 import { fulfillOrder } from '@/actions/fulfill-order'
 import { toast } from './ui/use-toast'
+import { cn } from '@/lib/utils'
 
 interface OrdersListProps {
   orders: FindManyOrdersResponse
   restaurantSlug: string
+  title?: string
+  status: OrderStatus
 }
 
 export function OrdersList(props: OrdersListProps) {
@@ -40,7 +43,8 @@ export function OrdersList(props: OrdersListProps) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <FlexDiv column className='flex-1 overflow-y-auto'>
+      <FlexDiv column className={cn('overflow-y-auto', props.status === OrderStatus.FULLFILLED ? 'h-64' : 'flex-1')}>
+        {props.title && <Typography.H4>{props.title}</Typography.H4>}
         {props.orders.map((order) => {
           const result = formatDistance(now, new Date(order.createdAt), { includeSeconds: true })
           const timeAgoText = result.charAt(0).toUpperCase() + result.slice(1) + ' ago'
@@ -128,9 +132,9 @@ function OrderModal(props: OrderModalProps) {
 
       <DialogFooter className='mt-8'>
         <DialogClose asChild>
-          <Button variant='destructive'>Cancel</Button>
+          <Button variant='destructive'>Close</Button>
         </DialogClose>
-        <Button variant='success' onClick={handleFulfill}>
+        <Button variant='success' onClick={handleFulfill} disabled={props.order.status !== OrderStatus.PENDING}>
           Fulfill
         </Button>
       </DialogFooter>

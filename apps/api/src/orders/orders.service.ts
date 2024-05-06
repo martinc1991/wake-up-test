@@ -44,6 +44,9 @@ export class OrdersService {
           },
         },
       },
+      orderBy: {
+        createdAt: 'asc',
+      },
     })
   }
 
