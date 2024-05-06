@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common'
+import { Order, OrderStatus } from '@prisma/client'
 import { FindManyOrdersResponse } from 'contract'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { CreateOrderDto } from './dto/create-order.dto'
 import { UpdateOrderDto } from './dto/update-order.dto'
-import { Order, OrderStatus } from '@prisma/client'
 
 @Injectable()
 export class OrdersService {
@@ -51,10 +51,6 @@ export class OrdersService {
     })
   }
 
-  findOne(id: string) {
-    return this.prisma.order.findUnique({ where: { id } })
-  }
-
   update(id: string, updateOrderDto: UpdateOrderDto): Promise<Order> {
     let newProductsIds: { id: string }[] | undefined
 
@@ -66,9 +62,5 @@ export class OrdersService {
       where: { id },
       data: { ...updateOrderDto, items: { set: newProductsIds } },
     })
-  }
-
-  remove(id: string) {
-    return this.prisma.order.delete({ where: { id } })
   }
 }

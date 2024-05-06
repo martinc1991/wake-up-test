@@ -2,7 +2,7 @@
 
 import { createOrder } from '@/actions/create-order'
 import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
-import { CreateOrderPayload, FindOneRestaurantResponse, Product } from 'contract'
+import { CreateOrderPayload, Product, RestaurantWithProducts } from 'contract'
 import { useEffect, useReducer, useState } from 'react'
 import { FlexDiv } from './flex-div'
 import { ProductsList } from './products-list'
@@ -15,7 +15,7 @@ import { useToast } from './ui/use-toast'
 
 interface CreateOrderModalProps {
   children: React.ReactNode
-  restaurant: NonNullable<FindOneRestaurantResponse>
+  restaurant: RestaurantWithProducts
 }
 
 type Action =

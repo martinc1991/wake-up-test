@@ -2,13 +2,10 @@ import { INestApplication, ValidationPipe } from '@nestjs/common'
 import { HttpAdapterHost } from '@nestjs/core'
 import { Test, TestingModule } from '@nestjs/testing'
 import { AllExceptionsFilter } from 'src/all-exceptions.filter'
-// import * as request from 'supertest'
 import { AppModule } from '../src/app.module'
-// import { PrismaService } from 'src/prisma/prisma.service'
 
 describe('Auth flow', () => {
   let app: INestApplication
-  // let prisma: PrismaService
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -26,8 +23,6 @@ describe('Auth flow', () => {
     app.useLogger(false) // Just for the console to be cleaner
 
     await app.init()
-
-    // prisma = moduleFixture.get<PrismaService>(PrismaService)
   })
 
   describe('e2e testing', () => {

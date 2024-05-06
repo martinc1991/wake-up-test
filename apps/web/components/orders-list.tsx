@@ -1,20 +1,20 @@
 'use client'
 
+import { fulfillOrder } from '@/actions/fulfill-order'
 import { FlexDiv } from '@/components/flex-div'
 import StatusBadge from '@/components/status-badge'
 import { Typography } from '@/components/ui/typography'
-import { FindManyOrdersResponse, OrderStatus } from 'contract'
+import { cn } from '@/lib/utils'
+import { OrderStatus, OrderWithItemsAndProducts } from 'contract'
 import { formatDistance } from 'date-fns'
 import { useCallback, useEffect, useState } from 'react'
 import { SelectedItems } from './selected-items-list'
 import { Button } from './ui/button'
 import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog'
-import { fulfillOrder } from '@/actions/fulfill-order'
 import { toast } from './ui/use-toast'
-import { cn } from '@/lib/utils'
 
 interface OrdersListProps {
-  orders: FindManyOrdersResponse
+  orders: OrderWithItemsAndProducts[]
   restaurantSlug: string
   title?: string
   status: OrderStatus
@@ -23,7 +23,7 @@ interface OrdersListProps {
 export function OrdersList(props: OrdersListProps) {
   const [now, setNow] = useState<Date>(new Date())
   const [open, setOpen] = useState(false)
-  const [selectedOrder, setSelectedOrder] = useState<FindManyOrdersResponse[number] | null>(null)
+  const [selectedOrder, setSelectedOrder] = useState<OrderWithItemsAndProducts | null>(null)
 
   const closeModal = useCallback(() => {
     setOpen(false)
@@ -34,36 +34,33 @@ export function OrdersList(props: OrdersListProps) {
     return () => clearInterval(interval)
   }, [])
 
-  if (props.orders.length === 0)
-    return (
-      <FlexDiv className='flex-1' centered>
-        <Typography.Muted>No orders yet</Typography.Muted>
-      </FlexDiv>
-    )
-
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <FlexDiv column className={cn('overflow-y-auto', props.status === OrderStatus.FULLFILLED ? 'h-64' : 'flex-1')}>
         {props.title && <Typography.H4>{props.title}</Typography.H4>}
-        {props.orders.map((order) => {
-          const result = formatDistance(now, new Date(order.createdAt), { includeSeconds: true })
-          const timeAgoText = result.charAt(0).toUpperCase() + result.slice(1) + ' ago'
+        {props.orders.length === 0 ? (
+          <EmptyState />
+        ) : (
+          props.orders.map((order) => {
+            const result = formatDistance(now, new Date(order.createdAt), { includeSeconds: true })
+            const timeAgoText = result.charAt(0).toUpperCase() + result.slice(1) + ' ago'
 
-          return (
-            <DialogTrigger asChild key={order.id} onClick={() => setSelectedOrder(order)}>
-              <FlexDiv className='w-full h-16 border-b items-center p-2 hover:bg-slate-300 cursor-pointer transition duration-150'>
-                <FlexDiv column className='flex-1'>
-                  <Typography.Small>Table {order.table}</Typography.Small>
-                  <Typography.Small>{timeAgoText}</Typography.Small>
-                </FlexDiv>
+            return (
+              <DialogTrigger asChild key={order.id} onClick={() => setSelectedOrder(order)}>
+                <FlexDiv className='w-full h-16 border-b items-center p-2 hover:bg-slate-300 cursor-pointer transition duration-150'>
+                  <FlexDiv column className='flex-1'>
+                    <Typography.Small>Table {order.table}</Typography.Small>
+                    <Typography.Small>{timeAgoText}</Typography.Small>
+                  </FlexDiv>
 
-                <FlexDiv className='p-1'>
-                  <StatusBadge status={order.status}></StatusBadge>
+                  <FlexDiv className='p-1'>
+                    <StatusBadge status={order.status}></StatusBadge>
+                  </FlexDiv>
                 </FlexDiv>
-              </FlexDiv>
-            </DialogTrigger>
-          )
-        })}
+              </DialogTrigger>
+            )
+          })
+        )}
       </FlexDiv>
       {selectedOrder && <OrderModal order={selectedOrder} restaurantSlug={props.restaurantSlug} closeModal={closeModal} />}
     </Dialog>
@@ -71,7 +68,7 @@ export function OrdersList(props: OrdersListProps) {
 }
 
 interface OrderModalProps {
-  order: FindManyOrdersResponse[number]
+  order: OrderWithItemsAndProducts
   restaurantSlug: string
   closeModal: () => void
 }
@@ -139,5 +136,13 @@ function OrderModal(props: OrderModalProps) {
         </Button>
       </DialogFooter>
     </DialogContent>
+  )
+}
+
+function EmptyState() {
+  return (
+    <FlexDiv className='flex-1' centered>
+      <Typography.Muted>No orders yet</Typography.Muted>
+    </FlexDiv>
   )
 }

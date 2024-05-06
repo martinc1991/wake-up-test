@@ -7,6 +7,7 @@
     "prisma:generate": "turbo prisma:generate",
     "prisma:migrate": "turbo prisma:migrate",
     "prisma:push": "turbo prisma:push",
+    "prepare:app": "turbo prepare:app",
     "studio": "turbo studio",
     "lint": "turbo lint",
     "type-check": "turbo type-check",
