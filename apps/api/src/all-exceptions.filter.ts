@@ -11,7 +11,6 @@ type ErrorRes = {
   response: string | object
 }
 
-// TODO: serialize errors
 @Catch()
 export class AllExceptionsFilter extends BaseExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost) {
@@ -27,7 +26,6 @@ export class AllExceptionsFilter extends BaseExceptionFilter {
     }
 
     if (exception instanceof PrismaClientKnownRequestError) {
-      // Add more Prisma Error Types if you want
       response.statusCode = getPrismaErrorStatusCode(exception)
       response.response = exception.message.replaceAll(/\n/g, ' ')
     } else if (exception instanceof PrismaClientValidationError) {
