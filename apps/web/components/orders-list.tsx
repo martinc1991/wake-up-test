@@ -5,7 +5,7 @@ import { FlexDiv } from '@/components/flex-div'
 import StatusBadge from '@/components/status-badge'
 import { Typography } from '@/components/ui/typography'
 import { cn } from '@/lib/utils'
-import { FindManyOrdersResponse, OrderStatus } from 'contract'
+import { OrderStatus, OrderWithItemsAndProducts } from 'contract'
 import { formatDistance } from 'date-fns'
 import { useCallback, useEffect, useState } from 'react'
 import { SelectedItems } from './selected-items-list'
@@ -14,7 +14,7 @@ import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogT
 import { toast } from './ui/use-toast'
 
 interface OrdersListProps {
-  orders: FindManyOrdersResponse
+  orders: OrderWithItemsAndProducts[]
   restaurantSlug: string
   title?: string
   status: OrderStatus
@@ -23,7 +23,7 @@ interface OrdersListProps {
 export function OrdersList(props: OrdersListProps) {
   const [now, setNow] = useState<Date>(new Date())
   const [open, setOpen] = useState(false)
-  const [selectedOrder, setSelectedOrder] = useState<FindManyOrdersResponse[number] | null>(null)
+  const [selectedOrder, setSelectedOrder] = useState<OrderWithItemsAndProducts | null>(null)
 
   const closeModal = useCallback(() => {
     setOpen(false)
@@ -68,7 +68,7 @@ export function OrdersList(props: OrdersListProps) {
 }
 
 interface OrderModalProps {
-  order: FindManyOrdersResponse[number]
+  order: OrderWithItemsAndProducts
   restaurantSlug: string
   closeModal: () => void
 }

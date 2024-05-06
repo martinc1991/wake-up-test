@@ -1,8 +1,9 @@
 import { Item, Order, Prisma, Product } from '@prisma/client'
 export { OrderStatus } from '@prisma/client'
 
-export type FindManyOrdersResponse = (Order & { items: (Item & { product: Product })[] })[]
-export type FindOneOrderResponse = Order | null
+export type OrderWithItemsAndProducts = Order & { items: (Item & { product: Product })[] }
+
+export type FindManyOrdersResponse = OrderWithItemsAndProducts[]
 
 export type CreateOrderPayload = {
   slug: string
