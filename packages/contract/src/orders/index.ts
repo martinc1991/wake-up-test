@@ -1,4 +1,5 @@
 import { Order, Prisma } from '@prisma/client'
+export { OrderStatus } from '@prisma/client'
 
 export type FindManyOrdersResponse = Order[]
 export type FindOneOrderResponse = Order | null

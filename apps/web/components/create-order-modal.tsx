@@ -3,12 +3,13 @@
 import { createOrder } from '@/actions/create-order'
 import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { CreateOrderPayload, FindOneRestaurantResponse, Product } from 'contract'
-import { useReducer } from 'react'
+import { useReducer, useState } from 'react'
 import { FlexDiv } from './flex-div'
 import { ProductsList } from './products-list'
 import { Button } from './ui/button'
 import { Separator } from './ui/separator'
 import { Typography } from './ui/typography'
+import { useToast } from './ui/use-toast'
 
 interface CreateOrderModalProps {
   children: React.ReactNode
@@ -19,6 +20,7 @@ type Action =
   | { type: 'ADD_ITEM'; payload: { product: Product } }
   | { type: 'REMOVE_ITEM'; payload: { id: string } }
   | { type: 'CHANGE_QUANTITY'; payload: { id: string; quantity: number } }
+  | { type: 'CLEAR' }
 
 interface State {
   items: {
@@ -51,6 +53,8 @@ const reducer = (state: State, action: Action): State => {
         ...state,
         items: state.items.map((item) => (item.product.id === action.payload.id ? { ...item, quantity: action.payload.quantity } : item)),
       }
+    case 'CLEAR':
+      return initialState
     default:
       return state
   }
@@ -58,6 +62,8 @@ const reducer = (state: State, action: Action): State => {
 
 export function CreateOrderModal(props: CreateOrderModalProps) {
   const [state, dispatch] = useReducer(reducer, initialState)
+  const [open, setOpen] = useState(false)
+  const { toast } = useToast()
 
   const addItem = (product: Product) => {
     dispatch({ type: 'ADD_ITEM', payload: { product } })
@@ -78,17 +84,28 @@ export function CreateOrderModal(props: CreateOrderModalProps) {
         items: state.items.map((item) => ({ productId: item.product.id, quantity: item.quantity })),
       }
 
-      console.log('🎈 ', payload)
-      const newOrder = await createOrder(payload)
+      await createOrder(payload)
 
-      console.log('🎈 ', 'order created', newOrder)
+      toast({
+        title: 'Success',
+        description: `Order created with ${state.items.length} items`,
+        variant: 'success',
+      })
+
+      dispatch({ type: 'CLEAR' })
+      setOpen(false)
     } catch (error) {
-      console.log('🎈 ', error)
+      toast({
+        title: 'Error',
+        description: `Something went wrong`,
+        variant: 'destructive',
+      })
+      console.error(error)
     }
   }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{props.children}</DialogTrigger>
 
       <DialogContent className='w-full max-w-4xl max-h-[90vh] h-full'>
