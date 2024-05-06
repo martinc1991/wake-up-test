@@ -10,3 +10,6 @@ export type CreateOrderPayload = {
   table: number
 }
 export type CreateOrderResponse = Order
+
+export type FulfillOrderPayload = { slug: string; orderId: string }
+export type FulfillOrderResponse = Order

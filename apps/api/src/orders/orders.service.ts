@@ -3,6 +3,7 @@ import { FindManyOrdersResponse } from 'contract'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { CreateOrderDto } from './dto/create-order.dto'
 import { UpdateOrderDto } from './dto/update-order.dto'
+import { Order } from '@prisma/client'
 
 @Injectable()
 export class OrdersService {
@@ -50,8 +51,7 @@ export class OrdersService {
     return this.prisma.order.findUnique({ where: { id } })
   }
 
-  update(id: string, updateOrderDto: UpdateOrderDto) {
-    // TODO:
+  update(id: string, updateOrderDto: UpdateOrderDto): Promise<Order> {
     let newProductsIds: { id: string }[] | undefined
 
     if (updateOrderDto.items) {
@@ -60,11 +60,7 @@ export class OrdersService {
 
     return this.prisma.order.update({
       where: { id },
-      data: {
-        items: {
-          set: newProductsIds,
-        },
-      },
+      data: { ...updateOrderDto, items: { set: newProductsIds } },
     })
   }
 

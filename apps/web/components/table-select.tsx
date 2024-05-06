@@ -6,7 +6,7 @@ interface TableSelectProps {
 
 export function TableSelect({ onChange = () => {} }: TableSelectProps) {
   return (
-    <Select onValueChange={onChange}>
+    <Select onValueChange={onChange} defaultValue='1'>
       <SelectTrigger className='w-[180px]'>
         <SelectValue placeholder='Select a table' />
       </SelectTrigger>

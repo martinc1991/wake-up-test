@@ -18,7 +18,7 @@ export default async function OrdersPage({ params }: PageProps) {
       <Typography.H3>Orders</Typography.H3>
       <Separator />
 
-      <OrdersList orders={orders} />
+      <OrdersList orders={orders} restaurantSlug={params.slug} />
     </FlexDiv>
   )
 }

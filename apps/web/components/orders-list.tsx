@@ -5,18 +5,26 @@ import StatusBadge from '@/components/status-badge'
 import { Typography } from '@/components/ui/typography'
 import { FindManyOrdersResponse } from 'contract'
 import { formatDistance } from 'date-fns'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { SelectedItems } from './selected-items-list'
 import { Button } from './ui/button'
 import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog'
+import { fulfillOrder } from '@/actions/fulfill-order'
+import { toast } from './ui/use-toast'
 
 interface OrdersListProps {
   orders: FindManyOrdersResponse
+  restaurantSlug: string
 }
 
 export function OrdersList(props: OrdersListProps) {
   const [now, setNow] = useState<Date>(new Date())
+  const [open, setOpen] = useState(false)
   const [selectedOrder, setSelectedOrder] = useState<FindManyOrdersResponse[number] | null>(null)
+
+  const closeModal = useCallback(() => {
+    setOpen(false)
+  }, [])
 
   useEffect(() => {
     const interval = setInterval(() => setNow(new Date()), 1000 * 60)
@@ -31,7 +39,7 @@ export function OrdersList(props: OrdersListProps) {
     )
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <FlexDiv column className='flex-1 overflow-y-auto'>
         {props.orders.map((order) => {
           const result = formatDistance(now, new Date(order.createdAt), { includeSeconds: true })
@@ -53,17 +61,38 @@ export function OrdersList(props: OrdersListProps) {
           )
         })}
       </FlexDiv>
-      {selectedOrder && <OrderModal order={selectedOrder} />}
+      {selectedOrder && <OrderModal order={selectedOrder} restaurantSlug={props.restaurantSlug} closeModal={closeModal} />}
     </Dialog>
   )
 }
 
 interface OrderModalProps {
   order: FindManyOrdersResponse[number]
+  restaurantSlug: string
+  closeModal: () => void
 }
 
 function OrderModal(props: OrderModalProps) {
   const total = props.order.items.reduce((acc, item) => acc + item.product.price * item.quantity, 0)
+
+  async function handleFulfill() {
+    try {
+      await fulfillOrder({ orderId: props.order.id, slug: props.restaurantSlug })
+      toast({
+        title: 'Success',
+        description: `Order fulfilled`,
+        variant: 'success',
+      })
+
+      props.closeModal()
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: `Something went wrong`,
+        variant: 'destructive',
+      })
+    }
+  }
 
   return (
     <DialogContent className='w-full max-w-3xl'>
@@ -101,7 +130,9 @@ function OrderModal(props: OrderModalProps) {
         <DialogClose asChild>
           <Button variant='destructive'>Cancel</Button>
         </DialogClose>
-        <Button>Fulfill</Button>
+        <Button variant='success' onClick={handleFulfill}>
+          Fulfill
+        </Button>
       </DialogFooter>
     </DialogContent>
   )
